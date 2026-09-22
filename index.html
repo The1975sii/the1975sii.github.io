@@ -1,0 +1,1279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Like Food Kitchen</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff8f0;
+    color: #222;
+}
+
+header {
+    background: #d62828;
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+    font-weight: bold;
+}
+
+.cart-button {
+    background: white;
+    color: #d62828;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hero {
+    min-height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1600&q=80");
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+.order-btn {
+    display: inline-block;
+    background: #ffb703;
+    color: #222;
+    padding: 14px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+section {
+    padding: 50px 5%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.food-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0,0,0,.12);
+}
+
+.food-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.food-info {
+    padding: 18px;
+}
+
+.food-info h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.food-info p {
+    color: #666;
+    min-height: 45px;
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #d62828;
+    color: white;
+    font-weight: bold;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-btn:hover {
+    background: #b51f1f;
+}
+
+.about {
+    background: #fff0dc;
+    text-align: center;
+}
+
+.about p {
+    max-width: 750px;
+    margin: auto;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.contact {
+    text-align: center;
+}
+
+.contact-box {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
+
+.contact-box p {
+    margin: 12px 0;
+    font-size: 17px;
+}
+
+.contact-box a {
+    color: #d62828;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+/* CART */
+
+.cart-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 2000;
+}
+
+.cart {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: min(430px, 100%);
+    background: white;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-cart {
+    background: #eee;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.cart-item-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: #d62828;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.remove-btn {
+    background: #555 !important;
+    width: auto !important;
+    padding: 0 8px;
+    font-size: 13px !important;
+}
+
+.cart-total {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* CHECKOUT */
+
+.checkout {
+    margin-top: 25px;
+    border-top: 2px solid #ddd;
+    padding-top: 20px;
+}
+
+.checkout input,
+.checkout textarea,
+.checkout select {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.payment-option {
+    display: block;
+    background: #f5f5f5;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.payment-option input {
+    width: auto;
+    margin-right: 8px;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.upi-btn {
+    background: #6f42c1;
+    color: white;
+}
+
+.cod-btn {
+    background: #198754;
+    color: white;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #777;
+    padding: 30px 0;
+}
+
+@media(max-width:700px) {
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    section {
+        padding: 40px 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🍗 Home Like Food Kitchen</div>
+
+    <nav>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="cart-button" onclick="openCart()">
+        🛒 Cart (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+
+<section class="hero">
+    <div>
+        <h1>Home Like Food Kitchen</h1>
+        <p>Delicious homemade-style food made with love ❤️</p>
+        <button class="order-btn" onclick="document.getElementById('menu').scrollIntoView()">
+            Order Now
+        </button>
+    </div>
+</section>
+
+
+<section id="menu">
+
+    <h2 class="section-title">Our Menu</h2>
+
+    <div class="menu-grid">
+
+        <!-- CHICKEN BIRYANI -->
+
+        <div class="food-card">
+
+            <img src="images/1.jpeg">
+
+            <div class="food-info">
+
+                <h3>Chicken Biryani</h3>
+
+                <p>Flavorful chicken biryani served with complimentary raita.</p>
+
+                <div class="price">
+                    Half ₹80 | Full ₹150
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Biryani - Half', 80)">
+                    Add Half ₹80
+                </button>
+
+                <br><br>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Biryani - Full', 150)">
+                    Add Full ₹150
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- CHICKEN CURRY -->
+
+        <div class="food-card">
+
+            <img src="images/whatsapp-4.jpeg">
+
+            <div class="food-info">
+
+                <h3>Chicken Curry</h3>
+
+                <p>Homestyle chicken curry with aromatic spices.</p>
+
+                <div class="price">
+                    Half ₹70 | Full ₹140
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Curry - Half', 70)">
+                    Add Half ₹70
+                </button>
+
+                <br><br>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Curry - Full', 140)">
+                    Add Full ₹140
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- MASALA MAGGI -->
+
+        <div class="food-card">
+
+            <img src="">
+
+            <div class="food-info">
+
+                <h3>Masala Maggi</h3>
+
+                <p>Hot and tasty masala Maggi prepared fresh.</p>
+
+                <!-- CHANGE THIS PRICE IF NEEDED -->
+
+                <div class="price">
+                    ₹50
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Masala Maggi', 50)">
+                    Add to Cart ₹50
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- TAWA ROTI -->
+
+        <div class="food-card">
+
+            <img src="images/whatsapp-1.jpeg">
+
+            <div class="food-info">
+
+                <h3>Tawa Roti</h3>
+
+                <p>Freshly prepared soft tawa roti.</p>
+
+                <div class="price">
+                    1 Roti ₹10 | 2 Rotis ₹20
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Tawa Roti - 1', 10)">
+                    Add 1 ₹10
+                </button>
+
+                <br><br>
+
+                <button class="add-btn"
+                    onclick="addItem('Tawa Roti - 2', 20)">
+                    Add 2 ₹20
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- CHILI CHICKEN -->
+
+        <div class="food-card">
+
+            <img src="">
+
+            <div class="food-info">
+
+                <h3>Chili Chicken</h3>
+
+                <p>Spicy and flavorful chili chicken prepared fresh.</p>
+
+                <div class="price">
+                    Half ₹120 | Full ₹210
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Chili Chicken - Half', 120)">
+                    Add Half ₹120
+                </button>
+
+                <br><br>
+
+                <button class="add-btn"
+                    onclick="addItem('Chili Chicken - Full', 210)">
+                    Add Full ₹210
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- CHICKEN FRIED RICE -->
+
+        <div class="food-card">
+
+            <img src="">
+
+            <div class="food-info">
+
+                <h3>Chicken Fried Rice</h3>
+
+                <p>Delicious fried rice cooked with chicken and spices.</p>
+
+                <div class="price">
+                    Half ₹100 | Full ₹200
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Fried Rice - Half', 100)">
+                    Add Half ₹100
+                </button>
+
+                <br><br>
+
+                <button class="add-btn"
+                    onclick="addItem('Chicken Fried Rice - Full', 200)">
+                    Add Full ₹200
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- PLAIN RICE -->
+
+        <div class="food-card">
+
+            <img src="">
+
+            <div class="food-info">
+
+                <h3>Plain Rice</h3>
+
+                <p>Freshly cooked steamed plain rice.</p>
+
+                <div class="price">
+                    ₹50
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Plain Rice', 50)">
+                    Add to Cart ₹50
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- VEG THALI -->
+
+        <div class="food-card">
+
+            <img src="images/whatsapp-3.jpeg">
+
+            <div class="food-info">
+
+                <h3>Veg Thali</h3>
+
+                <p>A wholesome vegetarian thali prepared home-style.</p>
+
+                <div class="price">
+                    ₹150
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Veg Thali', 150)">
+                    Add to Cart ₹150
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- NON-VEG THALI -->
+
+        <div class="food-card">
+
+            <img src="images/whatsapp-2.jpeg">
+
+            <div class="food-info">
+
+                <h3>Non-Veg Thali</h3>
+
+                <p>A filling non-vegetarian thali with delicious home-style food.</p>
+
+                <div class="price">
+                    ₹180
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Non-Veg Thali', 180)">
+                    Add to Cart ₹180
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- ALOO KI SABJI WITH 6 PURI -->
+
+        <div class="food-card">
+
+            <img src="images/pictures.jpeg">
+
+            <div class="food-info">
+
+                <h3>Aloo Ki Sabji with 6 Puri</h3>
+
+                <p>Delicious aloo ki sabji served with six fresh puris.</p>
+
+                <div class="price">
+                    ₹70
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Aloo Ki Sabji with 6 Puri', 70)">
+                    Add to Cart ₹70
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- SWEET CORN PIZZA -->
+
+        <div class="food-card">
+
+            <img src="images/image.jpeg">
+
+            <div class="food-info">
+
+                <h3>Sweet Corn Pizza</h3>
+
+                <p>Cheesy pizza topped with sweet corn.</p>
+
+                <div class="price">
+                    ₹100
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Sweet Corn Pizza', 100)">
+                    Add to Cart ₹100
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- VEG CHEESY CORN TOAST -->
+
+        <div class="food-card">
+
+            <img src="images/pizza.jpeg">
+
+            <div class="food-info">
+
+                <h3>Veg Cheesy Corn Toast</h3>
+
+                <p>Two pieces of crispy toast topped with cheesy sweet corn.</p>
+
+                <div class="price">
+                    2 Pieces ₹80
+                </div>
+
+                <button class="add-btn"
+                    onclick="addItem('Veg Cheesy Corn Toast - 2 Pieces', 80)">
+                    Add 2 Pieces ₹80
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section id="about" class="about">
+
+    <h2 class="section-title">About Us</h2>
+
+    <p>
+        Home Like Food Kitchen brings you tasty, comforting food
+        prepared in a homestyle way. We focus on fresh food,
+        good portions and delicious flavors.
+    </p>
+
+</section>
+
+
+<section id="contact" class="contact">
+
+    <h2 class="section-title">Contact Us</h2>
+
+    <div class="contact-box">
+
+        <p>
+            📞 Phone:
+            <a href="tel:9415960587">
+                9415960587
+            </a>
+        </p>
+
+        <p>
+            💬 WhatsApp:
+            <a href="https://wa.me/919415960587">
+                9415960587
+            </a>
+        </p>
+
+        <p>
+            📍 Address:
+            Hanif Nagar, Pyarepatti,
+            Sultanpur, Uttar Pradesh
+        </p>
+
+        <p>
+            💳 UPI:
+            <strong>mdw9743@okicici</strong>
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer>
+    © 2026 Home Like Food Kitchen
+</footer>
+
+
+<!-- CART -->
+
+<div id="cartOverlay" class="cart-overlay">
+
+    <div class="cart">
+
+        <div class="cart-header">
+
+            <h2>🛒 Your Cart</h2>
+
+            <button class="close-cart" onclick="closeCart()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+            Total: ₹<span id="cartTotal">0</span>
+        </div>
+
+
+        <div class="checkout">
+
+            <h3>Customer Details</h3>
+
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Your Name"
+            >
+
+            <input
+                type="tel"
+                id="customerPhone"
+                placeholder="Your Phone Number"
+            >
+
+            <textarea
+                id="customerAddress"
+                rows="3"
+                placeholder="Delivery Address"
+            ></textarea>
+
+
+            <h3>Payment Method</h3>
+
+            <label class="payment-option">
+                <input
+                    type="radio"
+                    name="payment"
+                    value="UPI"
+                    checked
+                >
+                UPI Payment
+            </label>
+
+            <label class="payment-option">
+                <input
+                    type="radio"
+                    name="payment"
+                    value="COD"
+                >
+                Cash on Delivery
+            </label>
+
+
+            <button
+                class="pay-btn upi-btn"
+                onclick="placeUPIOrder()">
+                💳 Pay with UPI & Order
+            </button>
+
+            <button
+                class="pay-btn cod-btn"
+                onclick="placeCODOrder()">
+                💵 Order with Cash on Delivery
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   RESTAURANT INFORMATION
+========================= */
+
+const restaurant = {
+    name: "Home Like Food Kitchen",
+    phone: "9415960587",
+    whatsapp: "919415960587",
+    upi: "mdw9743@okicici"
+};
+
+
+/* =========================
+   CART
+========================= */
+
+let cart = [];
+
+
+/* ADD ITEM */
+
+function addItem(name, price) {
+
+    const existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+
+        existingItem.quantity++;
+
+    } else {
+
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+
+    }
+
+    updateCart();
+
+    openCart();
+
+}
+
+
+/* CHANGE QUANTITY */
+
+function changeQuantity(index, amount) {
+
+    cart[index].quantity += amount;
+
+    if (cart[index].quantity <= 0) {
+
+        cart.splice(index, 1);
+
+    }
+
+    updateCart();
+
+}
+
+
+/* REMOVE ITEM */
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+}
+
+
+/* UPDATE CART */
+
+function updateCart() {
+
+    const cartItems = document.getElementById("cartItems");
+
+    const cartCount = document.getElementById("cartCount");
+
+    const cartTotal = document.getElementById("cartTotal");
+
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML =
+            '<div class="empty-cart">Your cart is empty.</div>';
+
+        cartCount.textContent = "0";
+
+        cartTotal.textContent = "0";
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+    let itemCount = 0;
+
+    let html = "";
+
+
+    cart.forEach((item, index) => {
+
+        const itemTotal = item.price * item.quantity;
+
+        total += itemTotal;
+
+        itemCount += item.quantity;
+
+
+        html += `
+
+        <div class="cart-item">
+
+            <div class="cart-item-name">
+                ${item.name}
+            </div>
+
+            <div>
+                ₹${item.price} × ${item.quantity}
+                = ₹${itemTotal}
+            </div>
+
+            <br>
+
+            <div class="quantity-controls">
+
+                <button onclick="changeQuantity(${index}, -1)">
+                    −
+                </button>
+
+                <strong>${item.quantity}</strong>
+
+                <button onclick="changeQuantity(${index}, 1)">
+                    +
+                </button>
+
+                <button
+                    class="remove-btn"
+                    onclick="removeItem(${index})">
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    cartItems.innerHTML = html;
+
+    cartCount.textContent = itemCount;
+
+    cartTotal.textContent = total;
+
+}
+
+
+/* GET TOTAL */
+
+function getTotal() {
+
+    return cart.reduce(
+        (total, item) =>
+            total + item.price * item.quantity,
+        0
+    );
+
+}
+
+
+/* =========================
+   CART OPEN / CLOSE
+========================= */
+
+function openCart() {
+
+    document.getElementById("cartOverlay").style.display = "block";
+
+}
+
+
+function closeCart() {
+
+    document.getElementById("cartOverlay").style.display = "none";
+
+}
+
+
+/* =========================
+   CUSTOMER DETAILS
+========================= */
+
+function getCustomerDetails() {
+
+    const name =
+        document.getElementById("customerName").value.trim();
+
+    const phone =
+        document.getElementById("customerPhone").value.trim();
+
+    const address =
+        document.getElementById("customerAddress").value.trim();
+
+
+    if (cart.length === 0) {
+
+        alert("Your cart is empty.");
+
+        return null;
+
+    }
+
+
+    if (!name || !phone || !address) {
+
+        alert("Please enter your name, phone number and delivery address.");
+
+        return null;
+
+    }
+
+
+    return {
+        name,
+        phone,
+        address
+    };
+
+}
+
+
+/* =========================
+   CREATE WHATSAPP MESSAGE
+========================= */
+
+function createOrderMessage(paymentMethod) {
+
+    const customer = getCustomerDetails();
+
+    if (!customer) return null;
+
+
+    let message =
+        `Hello ${restaurant.name}!%0A%0A`;
+
+    message +=
+        `*New Order*%0A%0A`;
+
+    message +=
+        `Customer: ${customer.name}%0A`;
+
+    message +=
+        `Phone: ${customer.phone}%0A`;
+
+    message +=
+        `Address: ${customer.address}%0A%0A`;
+
+    message +=
+        `*Items:*%0A`;
+
+
+    cart.forEach(item => {
+
+        message +=
+            `${item.name} × ${item.quantity} = ₹${item.price * item.quantity}%0A`;
+
+    });
+
+
+    message += `%0A`;
+
+    message +=
+        `*Total: ₹${getTotal()}*%0A`;
+
+    message +=
+        `Payment: ${paymentMethod}%0A%0A`;
+
+    message +=
+        `Please confirm my order.`;
+
+    return message;
+
+}
+
+
+/* =========================
+   UPI ORDER
+========================= */
+
+function placeUPIOrder() {
+
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const name =
+        document.getElementById("customerName").value.trim();
+
+    const phone =
+        document.getElementById("customerPhone").value.trim();
+
+    const address =
+        document.getElementById("customerAddress").value.trim();
+
+    if (!name || !phone || !address) {
+        alert("Please enter your name, phone number and delivery address.");
+        return;
+    }
+
+    const total = getTotal();
+
+    /*
+       Universal UPI Intent
+
+       This uses the standard UPI payment protocol.
+       The customer's phone decides which compatible
+       UPI apps are available.
+    */
+
+    const upiURL =
+        "upi://pay" +
+        "?pa=" + encodeURIComponent("mdw9743@okicici") +
+        "&pn=" + encodeURIComponent("Home Like Food Kitchen") +
+        "&am=" + encodeURIComponent(total.toFixed(2)) +
+        "&cu=INR" +
+        "&tn=" + encodeURIComponent(
+            "Food Order - Home Like Food Kitchen"
+        );
+
+    /*
+       Save the order temporarily so that we can
+       send it to WhatsApp after the customer returns
+       from the UPI app.
+    */
+
+    const pendingOrder = {
+        name: name,
+        phone: phone,
+        address: address,
+        total: total,
+        cart: cart
+    };
+
+    localStorage.setItem(
+        "pendingUPIOrder",
+        JSON.stringify(pendingOrder)
+    );
+
+    /*
+       Open the customer's UPI app.
+       Android will normally show compatible UPI
+       applications such as Google Pay, PhonePe,
+       BHIM, Navi, Paytm, etc.
+    */
+
+    window.location.href = upiURL;
+
+}
+
+
+/* =========================
+   COD ORDER
+========================= */
+
+function placeCODOrder() {
+
+    const message =
+        createOrderMessage("Cash on Delivery");
+
+
+    if (!message) return;
+
+
+    window.open(
+        "https://wa.me/" +
+        restaurant.whatsapp +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+updateCart();
+
+</script>
+
+</body>
+</html>
+```
